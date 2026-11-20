@@ -79,6 +79,17 @@ h2{font-size:clamp(26px,5vw,36px);font-weight:700;letter-spacing:-.01em}
 .contact .btn-primary{background:var(--accent);color:#22202B}
 .contact .btn-ghost{color:var(--bg);border-color:currentColor}
 footer{color:var(--muted);font-size:13px;text-align:center}
+.frame video{cursor:pointer}
+.expand{position:absolute;left:8px;bottom:8px;border:0;border-radius:999px;padding:7px 11px;
+  font:600 12px var(--body);background:rgba(20,18,26,.72);color:#fff;cursor:pointer}
+.expand:focus-visible,.viewer-close:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.viewer{position:fixed;inset:0;z-index:50;background:rgba(10,9,14,.94);display:flex;align-items:center;justify-content:center;
+  padding:calc(env(safe-area-inset-top,0px) + 56px) max(12px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 16px) max(12px,env(safe-area-inset-left,0px))}
+.viewer video{max-width:100%;max-height:100%;aspect-ratio:9/16;border-radius:12px;background:#000}
+.viewer-close{position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:max(12px,env(safe-area-inset-right,0px));
+  width:40px;height:40px;border-radius:999px;border:0;background:#fff;color:#14121A;font:700 20px/1 var(--body);cursor:pointer}
+.viewer-title{position:absolute;top:calc(env(safe-area-inset-top,0px) + 18px);left:max(16px,env(safe-area-inset-left,0px));
+  right:64px;color:#fff;font:600 15px var(--body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
 </style>
 </head>
@@ -102,7 +113,7 @@ footer{color:var(--muted);font-size:13px;text-align:center}
     <div class="sec-head">
       <span class="eyebrow">Portfolio</span>
       <h2 id="work-h">Recent videos</h2>
-      <p>Videos play muted. Tap Sound to hear the voiceover.</p>
+      <p>Tap any video to watch it full size with sound.</p>
     </div>
     <ul class="reels">
       <li class="reel"><div class="frame"><video src="videos/01-morning-routine.mp4" poster="videos/01-morning-routine.jpg" muted loop playsinline preload="none"></video><button class="sound" type="button" aria-pressed="false">Sound</button></div>
@@ -151,6 +162,12 @@ footer{color:var(--muted);font-size:13px;text-align:center}
   <footer>Techy Mom · @techymom.creates on Instagram, TikTok and YouTube</footer>
 </div>
 
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="viewer-title" hidden>
+  <span class="viewer-title" id="viewer-title"></span>
+  <button class="viewer-close" id="viewer-close" type="button" aria-label="Close video">✕</button>
+  <video id="viewer-video" controls playsinline></video>
+</div>
+
 <script>
 (function(){
   var vids=[].slice.call(document.querySelectorAll('.frame video'));
@@ -171,6 +188,34 @@ footer{color:var(--muted);font-size:13px;text-align:center}
       if(on){v.muted=false;var p=v.play();if(p&&p.catch)p.catch(function(){});b.setAttribute('aria-pressed','true');b.textContent='Sound on';}
     });
   });
+  var viewer=document.getElementById('viewer'), vv=document.getElementById('viewer-video'),
+      vt=document.getElementById('viewer-title'), vc=document.getElementById('viewer-close'), lastFocus=null;
+  function openViewer(v){
+    lastFocus=document.activeElement;
+    vids.forEach(function(o){o.pause();o.muted=true;});
+    document.querySelectorAll('.sound').forEach(function(x){x.setAttribute('aria-pressed','false');x.textContent='Sound';});
+    vt.textContent=v.closest('.reel').querySelector('h3').textContent;
+    vv.poster=v.poster; vv.src=v.getAttribute('src'); vv.muted=false;
+    viewer.hidden=false; document.body.style.overflow='hidden';
+    var p=vv.play(); if(p&&p.catch)p.catch(function(){});
+    vc.focus();
+  }
+  function closeViewer(){
+    vv.pause(); vv.removeAttribute('src'); vv.load();
+    viewer.hidden=true; document.body.style.overflow='';
+    vids.forEach(function(o){var r=o.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0){var p=o.play();if(p&&p.catch)p.catch(function(){});}});
+    if(lastFocus)lastFocus.focus();
+  }
+  vids.forEach(function(v){
+    v.setAttribute('tabindex','0'); v.setAttribute('role','button');
+    v.setAttribute('aria-label','Play '+v.closest('.reel').querySelector('h3').textContent+' full size');
+    v.addEventListener('click',function(){openViewer(v);});
+    v.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openViewer(v);}});
+  });
+  vc.addEventListener('click',closeViewer);
+  viewer.addEventListener('click',function(e){if(e.target===viewer)closeViewer();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!viewer.hidden)closeViewer();});
+
   var c=document.getElementById('copy');
   c.addEventListener('click',function(){
     var t=document.getElementById('email').textContent;

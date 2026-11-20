@@ -167,7 +167,7 @@ footer{color:var(--muted);font-size:13px;text-align:center}
 <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="viewer-title" hidden>
   <span class="viewer-title" id="viewer-title"></span>
   <button class="viewer-close" id="viewer-close" type="button" aria-label="Close video">✕</button>
-  <video id="viewer-video" controls playsinline></video>
+  <video id="viewer-video" controls playsinline disablepictureinpicture disableremoteplayback controlslist="nopictureinpicture nodownload noremoteplayback"></video>
 </div>
 
 <script>
@@ -202,13 +202,23 @@ footer{color:var(--muted);font-size:13px;text-align:center}
     var p=vv.play(); if(p&&p.catch)p.catch(function(){});
     vc.focus();
   }
+  function leavePip(){
+    try{ if(document.pictureInPictureElement&&document.exitPictureInPicture){document.exitPictureInPicture().catch(function(){});} }catch(e){}
+    try{ if(vv.webkitPresentationMode&&vv.webkitPresentationMode!=='inline'&&vv.webkitSetPresentationMode){vv.webkitSetPresentationMode('inline');} }catch(e){}
+  }
+  vv.disablePictureInPicture=true;
+  /* If the phone still pops the video out, bring it back into the big viewer. */
+  vv.addEventListener('enterpictureinpicture',leavePip);
+  vv.addEventListener('webkitpresentationmodechanged',function(){ if(vv.webkitPresentationMode==='picture-in-picture')leavePip(); });
   function closeViewer(){
+    leavePip();
     vv.pause(); vv.removeAttribute('src'); vv.load();
     viewer.hidden=true; document.body.style.overflow='';
     vids.forEach(function(o){var r=o.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0){var p=o.play();if(p&&p.catch)p.catch(function(){});}});
     if(lastFocus)lastFocus.focus();
   }
   vids.forEach(function(v){
+    v.disablePictureInPicture=true; v.setAttribute('disablepictureinpicture','');
     v.setAttribute('tabindex','0'); v.setAttribute('role','button');
     v.setAttribute('aria-label','Play '+v.closest('.reel').querySelector('h3').textContent+' full size');
     v.addEventListener('click',function(){openViewer(v);});

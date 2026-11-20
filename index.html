@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Techy Mom UGC</title>
+<meta name="description" content="Hands-only UGC videos by a real mom. Skincare, baby, mom, beauty, home and tech.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Layout: one narrow column, phone first. Intro, then a 9:16 reel wall (2 up on phones, 3 up on desktop), then offer and contact. */
+:root{
+  --bg:#F7F6F2; --surface:#FFFFFF; --ink:#22202B; --muted:#625E6E; --line:#E4E1EA;
+  --accent:#F5C518; --accent-ink:#22202B; --plum:#4B3B6B;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Figtree", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#17151D; --surface:#211E29; --ink:#F1EFF5; --muted:#AAA5B8; --line:#34303F;
+  --accent:#F5C518; --accent-ink:#17151D; --plum:#C9B8EE; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#17151D; --surface:#211E29; --ink:#F1EFF5; --muted:#AAA5B8; --line:#34303F;
+  --accent:#F5C518; --accent-ink:#17151D; --plum:#C9B8EE; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:56px;padding-block:40px 64px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.08}
+p{margin:0}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--plum)}
+
+/* Intro */
+.intro{display:flex;flex-direction:column;gap:18px;max-width:640px}
+.handle{font-weight:600;color:var(--muted)}
+h1{font-size:clamp(38px,9vw,64px);font-weight:800;letter-spacing:-.02em}
+h1 mark{background:var(--accent);color:var(--accent-ink);padding:0 .12em;border-radius:4px}
+.lede{font-size:18px;color:var(--muted);max-width:56ch}
+.cats{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:4px 0 0;list-style:none}
+.cats li{border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:14px;font-weight:500;background:var(--surface)}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 15px var(--body);border-radius:10px;padding:12px 18px;
+  text-decoration:none;border:1px solid transparent;cursor:pointer}
+.btn-primary{background:var(--ink);color:var(--bg)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn:focus-visible,.sound:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* Reels */
+.sec-head{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+h2{font-size:clamp(26px,5vw,36px);font-weight:700;letter-spacing:-.01em}
+.sec-head p{color:var(--muted)}
+.reels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:0;margin:0;list-style:none}
+@media (min-width:760px){.reels{grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}}
+.reel{display:flex;flex-direction:column;gap:10px;min-width:0}
+.frame{position:relative;aspect-ratio:9/16;max-width:100%;border-radius:14px;overflow:hidden;background:var(--line)}
+.frame video{width:100%;height:100%;object-fit:cover;display:block}
+.sound{position:absolute;right:8px;bottom:8px;border:0;border-radius:999px;padding:7px 11px;
+  font:600 12px var(--body);background:rgba(20,18,26,.72);color:#fff;cursor:pointer}
+.sound[aria-pressed="true"]{background:var(--accent);color:#22202B}
+.meta{display:flex;flex-direction:column;gap:2px;min-width:0}
+.meta h3{font-size:17px;font-weight:700}
+.meta span{font-size:13px;color:var(--muted)}
+
+/* Offer */
+.offer{display:grid;gap:14px;grid-template-columns:1fr}
+@media (min-width:760px){.offer{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card h3{font-size:18px;font-weight:700}
+.card ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;color:var(--muted)}
+.rules{margin-top:16px;color:var(--muted);font-size:15px;max-width:65ch}
+
+/* Contact */
+.contact{background:var(--plum);color:var(--bg);border-radius:18px;padding:28px 22px;display:flex;flex-direction:column;gap:14px}
+.contact h2{color:var(--bg)}
+.contact p{opacity:.9;max-width:52ch}
+.email-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.email{font:600 17px var(--body);background:var(--bg);color:var(--ink);border-radius:10px;padding:11px 14px;user-select:all;word-break:break-all}
+.contact .btn-primary{background:var(--accent);color:#22202B}
+.contact .btn-ghost{color:var(--bg);border-color:currentColor}
+footer{color:var(--muted);font-size:13px;text-align:center}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="intro">
+    <span class="handle">@techymom.creates</span>
+    <h1>Hands-only UGC by a <mark>real mom</mark>.</h1>
+    <p class="lede">I film the products I actually use at home, with my hands and my own voiceover. The videos are calm, honest and made to stop the scroll.</p>
+    <ul class="cats" aria-label="Categories">
+      <li>Skincare</li><li>Baby</li><li>Mom</li><li>Wellness</li><li>Beauty</li><li>Home</li><li>Tech</li>
+    </ul>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#work">Watch the work</a>
+      <a class="btn btn-ghost" href="#contact">Work with me</a>
+    </div>
+  </header>
+
+  <section id="work" aria-labelledby="work-h">
+    <div class="sec-head">
+      <span class="eyebrow">Portfolio</span>
+      <h2 id="work-h">Recent videos</h2>
+      <p>Videos play muted. Tap Sound to hear the voiceover.</p>
+    </div>
+    <ul class="reels">
+      <li class="reel"><div class="frame"><video src="videos/01-morning-routine.mp4" poster="videos/01-morning-routine.jpg" muted loop playsinline preload="none"></video><button class="sound" type="button" aria-pressed="false">Sound</button></div>
+        <div class="meta"><h3>Morning skincare routine</h3><span>Skincare · Routine · 50s</span></div></li>
+      <li class="reel"><div class="frame"><video src="videos/02-skincare-rebuys.mp4" poster="videos/02-skincare-rebuys.jpg" muted loop playsinline preload="none"></video><button class="sound" type="button" aria-pressed="false">Sound</button></div>
+        <div class="meta"><h3>Skincare I re-buy</h3><span>Aveeno, Medicube, Beauty of Joseon, Dr. Althea · 30s</span></div></li>
+      <li class="reel"><div class="frame"><video src="videos/sunna-collagen.mp4" poster="videos/sunna-collagen.jpg" muted loop playsinline preload="none"></video><button class="sound" type="button" aria-pressed="false">Sound</button></div>
+        <div class="meta"><h3>Sunna halal collagen</h3><span>Wellness · Review · 37s</span></div></li>
+      <li class="reel"><div class="frame"><video src="videos/03-hahaland.mp4" poster="videos/03-hahaland.jpg" muted loop playsinline preload="none"></video><button class="sound" type="button" aria-pressed="false">Sound</button></div>
+        <div class="meta"><h3>Hahaland</h3><span>Baby · Review · 55s</span></div></li>
+      <li class="reel"><div class="frame"><video src="videos/04-momcozy.mp4" poster="videos/04-momcozy.jpg" muted loop playsinline preload="none"></video><button class="sound" type="button" aria-pressed="false">Sound</button></div>
+        <div class="meta"><h3>Momcozy</h3><span>Baby tech · Demo · 20s</span></div></li>
+      <li class="reel"><div class="frame"><video src="videos/05-night-routine.mp4" poster="videos/05-night-routine.jpg" muted loop playsinline preload="none"></video><button class="sound" type="button" aria-pressed="false">Sound</button></div>
+        <div class="meta"><h3>Night skincare routine</h3><span>Skincare · Routine · 42s</span></div></li>
+      <li class="reel"><div class="frame"><video src="videos/06-millie-moon.mp4" poster="videos/06-millie-moon.jpg" muted loop playsinline preload="none"></video><button class="sound" type="button" aria-pressed="false">Sound</button></div>
+        <div class="meta"><h3>Millie Moon</h3><span>Baby · Demo · 22s</span></div></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="offer-h">
+    <div class="sec-head">
+      <span class="eyebrow">What I offer</span>
+      <h2 id="offer-h">Videos for your brand</h2>
+    </div>
+    <div class="offer">
+      <div class="card"><h3>Video types</h3>
+        <ul><li>Product demo</li><li>Routine (morning or night)</li><li>Unboxing</li><li>Repurchase / empties</li><li>Honest review</li></ul></div>
+      <div class="card"><h3>Turnaround</h3>
+        <ul><li>First draft 5–7 days after the product arrives</li><li>1 round of edits included</li><li>9:16, captioned, ready to post</li></ul></div>
+      <div class="card"><h3>Usage rights</h3>
+        <ul><li>Organic posting on your channels</li><li>Paid ads: 30, 60 or 90 days</li><li>Raw clips and extra hooks as add-ons</li></ul></div>
+    </div>
+    <p class="rules">All videos are hands-only with voiceover, filmed in a real home with natural light. Rates are shared by email, based on deliverables and usage.</p>
+  </section>
+
+  <section id="contact" class="contact" aria-labelledby="contact-h">
+    <h2 id="contact-h">Let's make something together</h2>
+    <p>Send me your product and brief and I'll reply with ideas and rates.</p>
+    <div class="email-row">
+      <span class="email" id="email">techymom.creates@gmail.com</span>
+      <button class="btn btn-primary" type="button" id="copy">Copy email</button>
+      <a class="btn btn-ghost" href="mailto:techymom.creates@gmail.com?subject=UGC%20collab">Open email</a>
+    </div>
+  </section>
+
+  <footer>Techy Mom · @techymom.creates on Instagram, TikTok and YouTube</footer>
+</div>
+
+<script>
+(function(){
+  var vids=[].slice.call(document.querySelectorAll('.frame video'));
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if('IntersectionObserver' in window && !reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      var v=e.target;
+      if(e.isIntersecting){v.preload='auto';var p=v.play();if(p&&p.catch)p.catch(function(){});}
+      else{v.pause();}
+    });},{threshold:0.45});
+    vids.forEach(function(v){io.observe(v);});
+  }
+  document.querySelectorAll('.sound').forEach(function(b){
+    b.addEventListener('click',function(){
+      var v=b.parentNode.querySelector('video'), on=v.muted;
+      vids.forEach(function(o){o.muted=true;});
+      document.querySelectorAll('.sound').forEach(function(x){x.setAttribute('aria-pressed','false');x.textContent='Sound';});
+      if(on){v.muted=false;var p=v.play();if(p&&p.catch)p.catch(function(){});b.setAttribute('aria-pressed','true');b.textContent='Sound on';}
+    });
+  });
+  var c=document.getElementById('copy');
+  c.addEventListener('click',function(){
+    var t=document.getElementById('email').textContent;
+    function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('email'));var s=getSelection();s.removeAllRanges();s.addRange(r);c.textContent='Selected, press copy';}
+    try{navigator.clipboard.writeText(t).then(function(){c.textContent='Copied';},sel);}catch(e){sel();}
+  });
+})();
+</script>
+</body>
+</html>
